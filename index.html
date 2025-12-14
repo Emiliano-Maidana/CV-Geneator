@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
     <header class="main-header">
         <div class="container">
             <div class="logo">
@@ -22,9 +21,7 @@
         </div>
     </header>
 
-    <!-- Contenedor Principal -->
     <main class="app-container">
-        <!-- Panel Editor -->
         <section class="editor-panel">
             <div class="panel-header">
                 <h2><i class="fas fa-edit"></i> Editor</h2>
@@ -34,7 +31,6 @@
             </div>
             
             <div class="form-container">
-                <!-- Navegación por secciones -->
                 <nav class="form-nav">
                     <button class="nav-btn active" data-section="personal">
                         <i class="fas fa-user"></i> Personal
@@ -50,9 +46,7 @@
                     </button>
                 </nav>
 
-                <!-- Formularios por sección -->
                 <form id="cvForm">
-                    <!-- Sección Personal (visible por defecto) -->
                     <div class="form-section active" id="personalSection">
                         <h3>Información Personal</h3>
                         <div class="form-group">
@@ -79,7 +73,6 @@
                         </div>
                     </div>
 
-                    <!-- Sección Experiencia (oculta inicialmente) -->
                     <div class="form-section" id="experienceSection">
                         <h3>Experiencia Laboral</h3>
                         <div class="experience-item">
@@ -116,7 +109,6 @@
                         </button>
                     </div>
 
-                    <!-- Sección Educación -->
                     <div class="form-section" id="educationSection">
                         <h3>Educación</h3>
                         <div class="education-item">
@@ -146,7 +138,6 @@
                         </button>
                     </div>
 
-                    <!-- Sección Habilidades -->
                     <div class="form-section" id="skillsSection">
                         <h3>Habilidades</h3>
                         <div class="form-group">
@@ -159,7 +150,6 @@
             </div>
         </section>
 
-        <!-- Panel Vista Previa -->
         <section class="preview-panel">
             <div class="panel-header">
                 <h2><i class="fas fa-eye"></i> Vista Previa</h2>
@@ -174,7 +164,6 @@
             </div>
             
             <div class="cv-preview" id="cvPreview">
-                <!-- CV se generará aquí dinámicamente -->
                 <div class="cv-template classic">
                     <div class="cv-header">
                         <h1 class="cv-name">María González López</h1>
@@ -224,7 +213,6 @@
                 </div>
             </div>
 
-            <!-- Panel de Plantillas (oculto inicialmente) -->
             <div class="templates-panel" id="templatesPanel">
                 <h3><i class="fas fa-palette"></i> Elegir Plantilla</h3>
                 <div class="templates-grid">
@@ -251,14 +239,12 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
             <p>Generador de CV Gratis - 2024 | <a href="#" id="premiumLink">Ver funciones Premium</a></p>
         </div>
     </footer>
 
-    <!-- Modal Premium (oculto) -->
     <div class="modal" id="premiumModal">
         <div class="modal-content">
             <h2><i class="fas fa-crown"></i> Actualizar a Premium</h2>
@@ -269,7 +255,6 @@
         </div>
     </div>
 
-    <script src="scripts/app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
