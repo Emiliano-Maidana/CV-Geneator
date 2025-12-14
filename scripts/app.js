@@ -165,4 +165,188 @@ function initTemplateSelector() {
             
             // Actualizar selección visual
             templateCards.forEach(c => c.classList.remove('active'));
-            this.classList.add('
+            this.classList.add('active');
+            
+            // Cambiar plantilla
+            state.currentTemplate = this.dataset.template;
+            document.getElementById('cvPreview').querySelector('.cv-template').className = 
+                `cv-template ${state.currentTemplate}`;
+            
+            // Cerrar panel
+            document.getElementById('templatesPanel').classList.remove('active');
+            
+            saveToStorage();
+        });
+    });
+}
+
+// ===== ACTUALIZAR VISTA PREVIA =====
+function updatePreview() {
+    const data = state.cvData.personal;
+    const preview = document.getElementById('cvPreview');
+    
+    // Actualizar información personal
+    if (data.name) preview.querySelector('.cv-name').textContent = data.name;
+    if (data.title) preview.querySelector('.cv-title').textContent = data.title;
+    
+    // Actualizar contacto
+    const contact = preview.querySelector('.cv-contact');
+    if (data.phone) {
+        contact.querySelector('span:nth-child(1)').innerHTML = 
+            `<i class="fas fa-phone"></i> ${data.phone}`;
+    }
+    if (data.email) {
+        contact.querySelector('span:nth-child(2)').innerHTML = 
+            `<i class="fas fa-envelope"></i> ${data.email}`;
+    }
+    
+    // Actualizar perfil
+    if (data.summary) {
+        preview.querySelector('.cv-section p').textContent = data.summary;
+    }
+    
+    // Actualizar experiencia (simplificado por ahora)
+    updateExperiencePreview();
+}
+
+function updateExperiencePreview() {
+    const expSection = document.querySelector('#cvPreview .cv-section:nth-child(3)');
+    if (!expSection) return;
+    
+    let html = '<h3><i class="fas fa-briefcase"></i> Experiencia</h3>';
+    
+    state.cvData.experience.forEach(exp => {
+        if (exp.title || exp.company) {
+            html += `
+                <div class="cv-item">
+                    <h4>${exp.title || ''}</h4>
+                    <p class="cv-subtitle">${exp.company || ''} | ${exp.start || ''} ${exp.end ? ' - ' + exp.end : ''}</p>
+                    ${exp.description ? `<p>${exp.description.replace(/\n/g, '<br>')}</p>` : ''}
+                </div>
+            `;
+        }
+    });
+    
+    expSection.innerHTML = html;
+}
+
+// ===== BOTONES PRINCIPALES =====
+function initButtons() {
+    // Botón "Nuevo"
+    document.getElementById('clearBtn').addEventListener('click', function() {
+        if (confirm('¿Borrar todos los datos y empezar de nuevo?')) {
+            clearAllData();
+        }
+    });
+    
+    // Botón "Descargar PDF" (placeholder por ahora)
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+        alert('La descarga de PDF se implementará en la Fase 2');
+        // En la Fase 2: generarPDF();
+    });
+    
+    // Enlace Premium
+    document.getElementById('premiumLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        showPremiumModal();
+    });
+    
+    // Cerrar modal
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('premiumModal').classList.remove('active');
+    });
+}
+
+// ===== MODAL PREMIUM =====
+function showPremiumModal() {
+    document.getElementById('premiumModal').classList.add('active');
+}
+
+// ===== GUARDADO EN LOCALSTORAGE =====
+function saveToStorage() {
+    try {
+        localStorage.setItem('cvProData', JSON.stringify({
+            cvData: state.cvData,
+            template: state.currentTemplate
+        }));
+    } catch (e) {
+        console.log('Error guardando datos:', e);
+    }
+}
+
+function loadFromStorage() {
+    try {
+        const saved = JSON.parse(localStorage.getItem('cvProData'));
+        if (saved) {
+            state.cvData = saved.cvData || state.cvData;
+            state.currentTemplate = saved.template || 'classic';
+            
+            // Rellenar formularios
+            Object.keys(state.cvData.personal).forEach(key => {
+                const input = document.getElementById(key);
+                if (input) input.value = state.cvData.personal[key];
+            });
+            
+            // Aplicar plantilla
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.toggle('active', card.dataset.template === state.currentTemplate);
+            });
+            
+            const cvTemplate = document.querySelector('#cvPreview .cv-template');
+            if (cvTemplate) {
+                cvTemplate.className = `cv-template ${state.currentTemplate}`;
+            }
+        }
+    } catch (e) {
+        console.log('Error cargando datos:', e);
+    }
+}
+
+function clearAllData() {
+    if (confirm('¿Estás seguro? Se perderán todos los datos no guardados.')) {
+        localStorage.removeItem('cvProData');
+        
+        // Resetear estado
+        state.cvData = {
+            personal: { name: '', title: '', email: '', phone: '', summary: '' },
+            experience: [],
+            education: [],
+            skills: []
+        };
+        
+        // Limpiar formularios
+        document.querySelectorAll('input, textarea').forEach(input => {
+            if (input.type !== 'button' && input.type !== 'submit') {
+                input.value = '';
+            }
+        });
+        
+        // Eliminar items de experiencia extra
+        const expItems = document.querySelectorAll('.experience-item');
+        expItems.forEach((item, index) => {
+            if (index > 0) item.remove();
+        });
+        
+        updatePreview();
+        alert('Datos borrados correctamente.');
+    }
+}
+
+// ===== DETECCIÓN DE DISPOSITIVO =====
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// Ajustar interfaz en tiempo real
+window.addEventListener('resize', function() {
+    if (isMobile()) {
+        document.body.classList.add('mobile');
+    } else {
+        document.body.classList.remove('mobile');
+    }
+});
+
+// Inicializar detección
+if (isMobile()) {
+    document.body.classList.add('mobile');
+}
