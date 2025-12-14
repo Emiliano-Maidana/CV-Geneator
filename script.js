@@ -1,4 +1,4 @@
-// Estado de la aplicación
+// ===== ESTADO DE LA APLICACIÓN =====
 const state = {
     currentTemplate: 'classic',
     currentSection: 'personal',
@@ -16,7 +16,7 @@ const state = {
     }
 };
 
-// Inicialización
+// ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', function() {
     console.log('CV Generator iniciado');
     initNavigation();
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updatePreview();
 });
 
-// Navegación entre secciones
+// ===== NAVEGACIÓN ENTRE SECCIONES =====
 function initNavigation() {
     const navButtons = document.querySelectorAll('.nav-btn');
     
@@ -54,7 +54,7 @@ function initNavigation() {
     });
 }
 
-// Listeners del formulario
+// ===== LISTENERS DEL FORMULARIO =====
 function initFormListeners() {
     // Inputs de información personal
     const personalInputs = ['name', 'title', 'email', 'phone', 'summary'];
@@ -80,7 +80,7 @@ function initFormListeners() {
     addExperienceItem();
 }
 
-// Gestión de experiencia
+// ===== GESTIÓN DE EXPERIENCIA =====
 function addExperienceItem() {
     const expContainer = document.querySelector('#experienceSection .experience-item:last-child');
     if (!expContainer) return;
@@ -153,7 +153,7 @@ function updateExperienceData() {
     saveToStorage();
 }
 
-// Selector de plantillas
+// ===== SELECTOR DE PLANTILLAS =====
 function initTemplateSelector() {
     const templateBtn = document.getElementById('templateBtn');
     const closeBtn = document.getElementById('closeTemplates');
@@ -201,7 +201,7 @@ function initTemplateSelector() {
     });
 }
 
-// Actualizar vista previa
+// ===== ACTUALIZAR VISTA PREVIA =====
 function updatePreview() {
     const data = state.cvData.personal;
     const preview = document.getElementById('cvPreview');
@@ -264,7 +264,7 @@ function updateExperiencePreview() {
     expSection.innerHTML = html;
 }
 
-// Botones principales
+// ===== BOTONES PRINCIPALES =====
 function initButtons() {
     // Botón "Nuevo"
     const clearBtn = document.getElementById('clearBtn');
@@ -303,13 +303,13 @@ function initButtons() {
     }
 }
 
-// Modal Premium
+// ===== MODAL PREMIUM =====
 function showPremiumModal() {
     const modal = document.getElementById('premiumModal');
     if (modal) modal.classList.add('active');
 }
 
-// Guardado en localStorage
+// ===== GUARDADO EN LOCALSTORAGE =====
 function saveToStorage() {
     try {
         localStorage.setItem('cvProData', JSON.stringify({
@@ -377,4 +377,23 @@ function clearAllData() {
         updatePreview();
         alert('Datos borrados correctamente.');
     }
+}
+
+// ===== DETECCIÓN DE DISPOSITIVO =====
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// Ajustar interfaz en tiempo real
+window.addEventListener('resize', function() {
+    if (isMobile()) {
+        document.body.classList.add('mobile');
+    } else {
+        document.body.classList.remove('mobile');
+    }
+});
+
+// Inicializar detección
+if (isMobile()) {
+    document.body.classList.add('mobile');
 }
