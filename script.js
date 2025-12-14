@@ -1,4 +1,4 @@
-// ===== ESTADO DE LA APLICACIÓN =====
+// Estado de la aplicación
 const state = {
     currentTemplate: 'classic',
     currentSection: 'personal',
@@ -16,8 +16,9 @@ const state = {
     }
 };
 
-// ===== INICIALIZACIÓN =====
+// Inicialización
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('CV Generator iniciado');
     initNavigation();
     initFormListeners();
     initTemplateSelector();
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updatePreview();
 });
 
-// ===== NAVEGACIÓN ENTRE SECCIONES =====
+// Navegación entre secciones
 function initNavigation() {
     const navButtons = document.querySelectorAll('.nav-btn');
     
@@ -43,13 +44,17 @@ function initNavigation() {
                 sec.classList.remove('active');
             });
             
-            document.getElementById(`${section}Section`).classList.add('active');
+            const sectionElement = document.getElementById(`${section}Section`);
+            if (sectionElement) {
+                sectionElement.classList.add('active');
+            }
+            
             state.currentSection = section;
         });
     });
 }
 
-// ===== LISTENERS DEL FORMULARIO =====
+// Listeners del formulario
 function initFormListeners() {
     // Inputs de información personal
     const personalInputs = ['name', 'title', 'email', 'phone', 'summary'];
@@ -66,15 +71,19 @@ function initFormListeners() {
     });
     
     // Botón para añadir experiencia
-    document.getElementById('addExperience').addEventListener('click', addExperienceItem);
+    const addExpBtn = document.getElementById('addExperience');
+    if (addExpBtn) {
+        addExpBtn.addEventListener('click', addExperienceItem);
+    }
     
     // Experiencia por defecto
     addExperienceItem();
 }
 
-// ===== GESTIÓN DE EXPERIENCIA =====
+// Gestión de experiencia
 function addExperienceItem() {
     const expContainer = document.querySelector('#experienceSection .experience-item:last-child');
+    if (!expContainer) return;
     
     // Clonar el último item
     const newItem = expContainer.cloneNode(true);
@@ -88,13 +97,15 @@ function addExperienceItem() {
         }
     });
     
-    // Añadir listeners a los nuevos inputs
+    // Añadir listeners
     addExperienceListeners(newItem);
     
     // Insertar antes del botón "Añadir"
-    expContainer.parentNode.insertBefore(newItem, document.getElementById('addExperience'));
+    const addBtn = document.getElementById('addExperience');
+    if (addBtn) {
+        expContainer.parentNode.insertBefore(newItem, addBtn);
+    }
     
-    // Actualizar estado
     updateExperienceData();
 }
 
@@ -106,8 +117,10 @@ function addExperienceListeners(item) {
         if (input.type === 'checkbox') {
             input.addEventListener('change', function() {
                 const endInput = item.querySelector('.exp-end');
-                endInput.disabled = this.checked;
-                if (this.checked) endInput.value = '';
+                if (endInput) {
+                    endInput.disabled = this.checked;
+                    if (this.checked) endInput.value = '';
+                }
                 updateExperienceData();
             });
         }
@@ -140,20 +153,25 @@ function updateExperienceData() {
     saveToStorage();
 }
 
-// ===== SELECTOR DE PLANTILLAS =====
+// Selector de plantillas
 function initTemplateSelector() {
     const templateBtn = document.getElementById('templateBtn');
     const closeBtn = document.getElementById('closeTemplates');
     const templateCards = document.querySelectorAll('.template-card');
     
-    // Mostrar/ocultar panel de plantillas
-    templateBtn.addEventListener('click', function() {
-        document.getElementById('templatesPanel').classList.add('active');
-    });
+    if (templateBtn) {
+        templateBtn.addEventListener('click', function() {
+            const panel = document.getElementById('templatesPanel');
+            if (panel) panel.classList.add('active');
+        });
+    }
     
-    closeBtn.addEventListener('click', function() {
-        document.getElementById('templatesPanel').classList.remove('active');
-    });
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            const panel = document.getElementById('templatesPanel');
+            if (panel) panel.classList.remove('active');
+        });
+    }
     
     // Seleccionar plantilla
     templateCards.forEach(card => {
@@ -169,43 +187,59 @@ function initTemplateSelector() {
             
             // Cambiar plantilla
             state.currentTemplate = this.dataset.template;
-            document.getElementById('cvPreview').querySelector('.cv-template').className = 
-                `cv-template ${state.currentTemplate}`;
+            const cvTemplate = document.querySelector('#cvPreview .cv-template');
+            if (cvTemplate) {
+                cvTemplate.className = `cv-template ${state.currentTemplate}`;
+            }
             
             // Cerrar panel
-            document.getElementById('templatesPanel').classList.remove('active');
+            const panel = document.getElementById('templatesPanel');
+            if (panel) panel.classList.remove('active');
             
             saveToStorage();
         });
     });
 }
 
-// ===== ACTUALIZAR VISTA PREVIA =====
+// Actualizar vista previa
 function updatePreview() {
     const data = state.cvData.personal;
     const preview = document.getElementById('cvPreview');
+    if (!preview) return;
     
     // Actualizar información personal
-    if (data.name) preview.querySelector('.cv-name').textContent = data.name;
-    if (data.title) preview.querySelector('.cv-title').textContent = data.title;
+    const nameElement = preview.querySelector('.cv-name');
+    const titleElement = preview.querySelector('.cv-title');
+    
+    if (nameElement && data.name) nameElement.textContent = data.name;
+    if (titleElement && data.title) titleElement.textContent = data.title;
     
     // Actualizar contacto
     const contact = preview.querySelector('.cv-contact');
-    if (data.phone) {
-        contact.querySelector('span:nth-child(1)').innerHTML = 
-            `<i class="fas fa-phone"></i> ${data.phone}`;
-    }
-    if (data.email) {
-        contact.querySelector('span:nth-child(2)').innerHTML = 
-            `<i class="fas fa-envelope"></i> ${data.email}`;
+    if (contact) {
+        if (data.phone) {
+            const phoneSpan = contact.querySelector('span:nth-child(1)');
+            if (phoneSpan) {
+                phoneSpan.innerHTML = `<i class="fas fa-phone"></i> ${data.phone}`;
+            }
+        }
+        if (data.email) {
+            const emailSpan = contact.querySelector('span:nth-child(2)');
+            if (emailSpan) {
+                emailSpan.innerHTML = `<i class="fas fa-envelope"></i> ${data.email}`;
+            }
+        }
     }
     
     // Actualizar perfil
     if (data.summary) {
-        preview.querySelector('.cv-section p').textContent = data.summary;
+        const summaryElement = preview.querySelector('.cv-section p');
+        if (summaryElement) {
+            summaryElement.textContent = data.summary;
+        }
     }
     
-    // Actualizar experiencia (simplificado por ahora)
+    // Actualizar experiencia
     updateExperiencePreview();
 }
 
@@ -230,39 +264,52 @@ function updateExperiencePreview() {
     expSection.innerHTML = html;
 }
 
-// ===== BOTONES PRINCIPALES =====
+// Botones principales
 function initButtons() {
     // Botón "Nuevo"
-    document.getElementById('clearBtn').addEventListener('click', function() {
-        if (confirm('¿Borrar todos los datos y empezar de nuevo?')) {
-            clearAllData();
-        }
-    });
+    const clearBtn = document.getElementById('clearBtn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            if (confirm('¿Borrar todos los datos y empezar de nuevo?')) {
+                clearAllData();
+            }
+        });
+    }
     
-    // Botón "Descargar PDF" (placeholder por ahora)
-    document.getElementById('downloadBtn').addEventListener('click', function() {
-        alert('La descarga de PDF se implementará en la Fase 2');
-        // En la Fase 2: generarPDF();
-    });
+    // Botón "Descargar PDF"
+    const downloadBtn = document.getElementById('downloadBtn');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            alert('La descarga de PDF se implementará en la Fase 2');
+        });
+    }
     
     // Enlace Premium
-    document.getElementById('premiumLink').addEventListener('click', function(e) {
-        e.preventDefault();
-        showPremiumModal();
-    });
+    const premiumLink = document.getElementById('premiumLink');
+    if (premiumLink) {
+        premiumLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showPremiumModal();
+        });
+    }
     
     // Cerrar modal
-    document.getElementById('closeModal').addEventListener('click', function() {
-        document.getElementById('premiumModal').classList.remove('active');
-    });
+    const closeModalBtn = document.getElementById('closeModal');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            const modal = document.getElementById('premiumModal');
+            if (modal) modal.classList.remove('active');
+        });
+    }
 }
 
-// ===== MODAL PREMIUM =====
+// Modal Premium
 function showPremiumModal() {
-    document.getElementById('premiumModal').classList.add('active');
+    const modal = document.getElementById('premiumModal');
+    if (modal) modal.classList.add('active');
 }
 
-// ===== GUARDADO EN LOCALSTORAGE =====
+// Guardado en localStorage
 function saveToStorage() {
     try {
         localStorage.setItem('cvProData', JSON.stringify({
@@ -330,23 +377,4 @@ function clearAllData() {
         updatePreview();
         alert('Datos borrados correctamente.');
     }
-}
-
-// ===== DETECCIÓN DE DISPOSITIVO =====
-function isMobile() {
-    return window.innerWidth <= 768;
-}
-
-// Ajustar interfaz en tiempo real
-window.addEventListener('resize', function() {
-    if (isMobile()) {
-        document.body.classList.add('mobile');
-    } else {
-        document.body.classList.remove('mobile');
-    }
-});
-
-// Inicializar detección
-if (isMobile()) {
-    document.body.classList.add('mobile');
 }
