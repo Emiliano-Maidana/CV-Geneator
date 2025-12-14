@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de CV Gratis | CVPro</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -116,7 +116,45 @@
                         </button>
                     </div>
 
-                    <!-- Secciones de Educación y Habilidades (similares) -->
+                    <!-- Sección Educación -->
+                    <div class="form-section" id="educationSection">
+                        <h3>Educación</h3>
+                        <div class="education-item">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Título</label>
+                                    <input type="text" class="edu-degree" placeholder="Ej: Grado en Ingeniería Informática">
+                                </div>
+                                <div class="form-group">
+                                    <label>Institución</label>
+                                    <input type="text" class="edu-school" placeholder="Nombre de la universidad">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Desde</label>
+                                    <input type="month" class="edu-start">
+                                </div>
+                                <div class="form-group">
+                                    <label>Hasta</label>
+                                    <input type="month" class="edu-end">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add" id="addEducation">
+                            <i class="fas fa-plus"></i> Añadir Educación
+                        </button>
+                    </div>
+
+                    <!-- Sección Habilidades -->
+                    <div class="form-section" id="skillsSection">
+                        <h3>Habilidades</h3>
+                        <div class="form-group">
+                            <label>Añade tus habilidades (separadas por comas)</label>
+                            <textarea id="skillsInput" rows="4" placeholder="Ej: JavaScript, React, CSS, Photoshop, Inglés avanzado..."></textarea>
+                            <small class="form-help">Escribe tus habilidades separadas por comas</small>
+                        </div>
+                    </div>
                 </form>
             </div>
         </section>
@@ -164,6 +202,25 @@
                             </ul>
                         </div>
                     </div>
+
+                    <div class="cv-section">
+                        <h3><i class="fas fa-graduation-cap"></i> Educación</h3>
+                        <div class="cv-item">
+                            <h4>Grado en Ingeniería Informática</h4>
+                            <p class="cv-subtitle">Universidad de Madrid | 2015 - 2019</p>
+                        </div>
+                    </div>
+
+                    <div class="cv-section">
+                        <h3><i class="fas fa-star"></i> Habilidades</h3>
+                        <div class="cv-skills">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">Git</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -206,7 +263,6 @@
         <div class="modal-content">
             <h2><i class="fas fa-crown"></i> Actualizar a Premium</h2>
             <p>Desbloquea plantillas exclusivas y el generador de portafolio web.</p>
-            <!-- Contenido premium aquí -->
             <button class="btn-close-modal" id="closeModal">
                 <i class="fas fa-times"></i> Cerrar
             </button>
@@ -216,3 +272,4 @@
     <script src="scripts/app.js"></script>
 </body>
 </html>
+
