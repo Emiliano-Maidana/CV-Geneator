@@ -3,76 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de CV Simple</title>
+    <title>Generador de CV Pro</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📄 Generador de CV</h1>
-            <p class="subtitle">Rápido, simple y gratuito</p>
+            <div class="header-content">
+                <h1><i class="fas fa-file-alt"></i> Generador de CV Pro</h1>
+                <div class="header-badges">
+                    <span class="badge free">GRATIS</span>
+                    <span class="badge new">NUEVO</span>
+                </div>
+            </div>
+            <p class="subtitle">Crea un CV profesional en minutos</p>
         </header>
 
         <main>
+            <!-- PANEL EDITOR -->
             <section class="editor">
-                <h2>Completa tus datos</h2>
-                
-                <div class="form-group">
-                    <label for="nombre">Nombre completo:</label>
-                    <input type="text" id="nombre" placeholder="Ej: Ana García López">
+                <div class="section-header">
+                    <h2><i class="fas fa-edit"></i> Completa tu Información</h2>
+                    <button class="btn-clear" id="clearAll">
+                        <i class="fas fa-redo"></i> Nuevo CV
+                    </button>
                 </div>
                 
-                <div class="form-group">
-                    <label for="profesion">Profesión:</label>
-                    <input type="text" id="profesion" placeholder="Ej: Desarrolladora Web">
+                <!-- Navegación por secciones -->
+                <nav class="form-nav">
+                    <button class="nav-btn active" data-section="personal">
+                        <i class="fas fa-user"></i> Personal
+                    </button>
+                    <button class="nav-btn" data-section="experience">
+                        <i class="fas fa-briefcase"></i> Experiencia
+                    </button>
+                    <button class="nav-btn" data-section="education">
+                        <i class="fas fa-graduation-cap"></i> Estudios
+                    </button>
+                </nav>
+                
+                <div class="form-sections">
+                    <!-- SECCIÓN 1: INFORMACIÓN PERSONAL -->
+                    <div class="form-section active" id="personalSection">
+                        <h3>Información Personal</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre"><i class="fas fa-user-circle"></i> Nombre Completo *</label>
+                                <input type="text" id="nombre" placeholder="Ej: Carlos Rodríguez Pérez" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="titulo"><i class="fas fa-briefcase"></i> Título Profesional *</label>
+                                <input type="text" id="titulo" placeholder="Ej: Desarrollador Full Stack" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope"></i> Email *</label>
+                                <input type="email" id="email" placeholder="tu.email@ejemplo.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono"><i class="fas fa-phone"></i> Teléfono</label>
+                                <input type="tel" id="telefono" placeholder="+34 600 123 456">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ciudad"><i class="fas fa-map-marker-alt"></i> Ciudad</label>
+                                <input type="text" id="ciudad" placeholder="Madrid, España">
+                            </div>
+                            <div class="form-group">
+                                <label for="linkedin"><i class="fab fa-linkedin"></i> LinkedIn</label>
+                                <input type="url" id="linkedin" placeholder="https://linkedin.com/in/tuperfil">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="portfolio"><i class="fas fa-globe"></i> Portfolio/GitHub</label>
+                                <input type="url" id="portfolio" placeholder="https://github.com/tuusuario">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resumen"><i class="fas fa-file-alt"></i> Resumen Profesional</label>
+                            <textarea id="resumen" rows="4" placeholder="Describe tu experiencia, habilidades y objetivos profesionales..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- SECCIÓN 2: EXPERIENCIA LABORAL -->
+                    <div class="form-section" id="experienceSection">
+                        <div class="section-header">
+                            <h3>Experiencia Laboral</h3>
+                            <button type="button" class="btn-add" id="addExperience">
+                                <i class="fas fa-plus"></i> Añadir Experiencia
+                            </button>
+                        </div>
+                        
+                        <div class="dynamic-list" id="experienceList">
+                            <!-- Experiencia 1 -->
+                            <div class="experience-item item-card">
+                                <div class="item-header">
+                                    <h4>Experiencia #1</h4>
+                                    <button type="button" class="btn-remove" data-type="experience">
+                                        <i class="fas fa-times"></i> Quitar
+                                    </button>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Puesto *</label>
+                                        <input type="text" class="exp-puesto" placeholder="Ej: Desarrollador Frontend">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Empresa *</label>
+                                        <input type="text" class="exp-empresa" placeholder="Nombre de la empresa">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Desde</label>
+                                        <input type="month" class="exp-desde">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Hasta</label>
+                                        <input type="month" class="exp-hasta">
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" class="exp-actual" id="expActual1">
+                                            <label for="expActual1">Trabajo actual</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <textarea class="exp-descripcion" rows="3" placeholder="Responsabilidades, logros, tecnologías usadas..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Más experiencias se agregarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                    
+                    <!-- SECCIÓN 3: EDUCACIÓN Y CURSOS -->
+                    <div class="form-section" id="educationSection">
+                        <div class="section-header">
+                            <h3>Educación y Cursos</h3>
+                            <button type="button" class="btn-add" id="addEducation">
+                                <i class="fas fa-plus"></i> Añadir Estudio
+                            </button>
+                        </div>
+                        
+                        <div class="dynamic-list" id="educationList">
+                            <!-- Educación 1 -->
+                            <div class="education-item item-card">
+                                <div class="item-header">
+                                    <h4>Estudio #1</h4>
+                                    <button type="button" class="btn-remove" data-type="education">
+                                        <i class="fas fa-times"></i> Quitar
+                                    </button>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Título *</label>
+                                        <input type="text" class="edu-titulo" placeholder="Ej: Grado en Ingeniería Informática">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Institución *</label>
+                                        <input type="text" class="edu-institucion" placeholder="Universidad o centro">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Desde</label>
+                                        <input type="month" class="edu-desde">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Hasta</label>
+                                        <input type="month" class="edu-hasta">
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" class="edu-actual" id="eduActual1">
+                                            <label for="eduActual1">Actualmente estudiando</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Tipo</label>
+                                    <select class="edu-tipo">
+                                        <option value="">Seleccionar tipo</option>
+                                        <option value="universidad">Estudio Universitario</option>
+                                        <option value="fp">Formación Profesional</option>
+                                        <option value="bootcamp">Bootcamp / Curso Intensivo</option>
+                                        <option value="curso">Curso / Certificación</option>
+                                        <option value="master">Máster / Posgrado</option>
+                                        <option value="otros">Otros</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Más estudios se agregarán aquí dinámicamente -->
+                        </div>
+                        
+                        <!-- Habilidades y Herramientas -->
+                        <div class="skills-section">
+                            <h3><i class="fas fa-tools"></i> Habilidades y Herramientas</h3>
+                            <div class="form-group">
+                                <label>Añade tus habilidades (separadas por comas)</label>
+                                <textarea id="habilidades" rows="3" placeholder="Ej: JavaScript, React, Node.js, Photoshop, Inglés B2, Gestión de proyectos..."></textarea>
+                                <small class="form-hint">Escribe cada habilidad separada por una coma</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" placeholder="ana@ejemplo.com">
+                <div class="form-actions">
+                    <button id="guardarBtn" class="btn-save">
+                        <i class="fas fa-save"></i> Guardar CV
+                    </button>
+                    <button id="generarBtn" class="btn-generar">
+                        <i class="fas fa-eye"></i> Actualizar Vista Previa
+                    </button>
                 </div>
-                
-                <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" placeholder="+34 600 123 456">
-                </div>
-                
-                <div class="form-group">
-                    <label for="experiencia">Experiencia:</label>
-                    <textarea id="experiencia" rows="4" placeholder="Describe tu experiencia profesional..."></textarea>
-                </div>
-                
-                <button id="generarBtn">Ver Vista Previa</button>
             </section>
 
+            <!-- PANEL VISTA PREVIA -->
             <section class="preview">
-                <h2>Vista previa de tu CV</h2>
-                <div class="cv-preview" id="cvPreview">
-                    <div class="cv-header">
-                        <h3 id="cvNombre">Tu nombre aparecerá aquí</h3>
-                        <p id="cvProfesion">Tu profesión</p>
-                    </div>
-                    <div class="cv-section">
-                        <h4>Contacto</h4>
-                        <p><strong>Email:</strong> <span id="cvEmail">email@ejemplo.com</span></p>
-                        <p><strong>Teléfono:</strong> <span id="cvTelefono">+34 000 000 000</span></p>
-                    </div>
-                    <div class="cv-section">
-                        <h4>Experiencia</h4>
-                        <p id="cvExperiencia">Tu experiencia aparecerá aquí...</p>
+                <div class="section-header">
+                    <h2><i class="fas fa-eye"></i> Vista Previa del CV</h2>
+                    <div class="preview-actions">
+                        <button class="btn-template" id="templateBtn">
+                            <i class="fas fa-palette"></i> Plantillas
+                        </button>
+                        <button class="btn-download" id="descargarBtn">
+                            <i class="fas fa-download"></i> Descargar PDF
+                        </button>
                     </div>
                 </div>
-                <button id="descargarBtn" class="btn-download">Descargar PDF (Próximamente)</button>
+                
+                <div class="cv-preview" id="cvPreview">
+                    <!-- CV se generará aquí -->
+                    <div class="cv-template classic">
+                        <div class="cv-header">
+                            <h1 id="cvNombre">Carlos Rodríguez Pérez</h1>
+                            <h2 id="cvTitulo">Desarrollador Full Stack</h2>
+                            <div class="cv-contact">
+                                <span><i class="fas fa-envelope"></i> carlos@email.com</span>
+                                <span><i class="fas fa-phone"></i> +34 612 345 678</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Madrid, España</span>
+                            </div>
+                            <div class="cv-links">
+                                <span><i class="fab fa-linkedin"></i> linkedin.com/in/carlosrp</span>
+                                <span><i class="fab fa-github"></i> github.com/carlosdev</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cv-section">
+                            <h3><i class="fas fa-user"></i> Resumen Profesional</h3>
+                            <p id="cvResumen">Desarrollador con 5 años de experiencia en tecnologías web. Especializado en JavaScript, React y Node.js. Apasionado por crear aplicaciones escalables y con buena experiencia de usuario.</p>
+                        </div>
+                        
+                        <div class="cv-section">
+                            <h3><i class="fas fa-briefcase"></i> Experiencia Laboral</h3>
+                            <div class="cv-experience-list" id="cvExperiencia">
+                                <div class="cv-item">
+                                    <h4>Desarrollador Full Stack</h4>
+                                    <p class="cv-subtitle">Tech Solutions S.L. | Feb 2020 - Actual</p>
+                                    <p>Desarrollo y mantenimiento de aplicaciones web con React y Node.js. Lideré la migración del frontend a React, mejorando el rendimiento en un 40%.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cv-section">
+                            <h3><i class="fas fa-graduation-cap"></i> Educación</h3>
+                            <div class="cv-education-list" id="cvEducacion">
+                                <div class="cv-item">
+                                    <h4>Grado en Ingeniería Informática</h4>
+                                    <p class="cv-subtitle">Universidad Politécnica de Madrid | 2015 - 2019</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cv-section">
+                            <h3><i class="fas fa-tools"></i> Habilidades</h3>
+                            <div class="cv-skills" id="cvHabilidades">
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">HTML/CSS</span>
+                                <span class="skill-tag">Git</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel de Plantillas (oculto inicialmente) -->
+                <div class="templates-panel" id="templatesPanel">
+                    <h3><i class="fas fa-palette"></i> Elegir Plantilla</h3>
+                    <div class="templates-grid">
+                        <div class="template-card active" data-template="classic">
+                            <div class="template-preview classic"></div>
+                            <p>Clásica</p>
+                            <span class="badge free">GRATIS</span>
+                        </div>
+                        <div class="template-card" data-template="modern">
+                            <div class="template-preview modern"></div>
+                            <p>Moderna</p>
+                            <span class="badge free">GRATIS</span>
+                        </div>
+                        <div class="template-card" data-template="professional">
+                            <div class="template-preview professional"></div>
+                            <p>Profesional</p>
+                            <span class="badge premium">PREMIUM</span>
+                        </div>
+                    </div>
+                    <button class="btn-close" id="closeTemplates">
+                        <i class="fas fa-times"></i> Cerrar
+                    </button>
+                </div>
             </section>
         </main>
 
         <footer>
-            <p>© 2024 Generador de CV Simple | Versión gratuita</p>
+            <p>© 2024 Generador de CV Pro | <a href="#" id="premiumLink">Ver funciones Premium</a></p>
+            <p class="footer-note">Tu información se guarda automáticamente en tu navegador</p>
         </footer>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-exclamation-triangle"></i> Confirmación</h3>
+            <p id="modalMessage">¿Estás seguro de que quieres realizar esta acción?</p>
+            <div class="modal-actions">
+                <button id="modalCancel" class="btn-secondary">Cancelar</button>
+                <button id="modalConfirm" class="btn-primary">Aceptar</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
-
